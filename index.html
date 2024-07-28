@@ -27,30 +27,30 @@
     </script>
 
     <script>
-        const startButton = document.createElement('button');
+        let startButton = document.createElement('button');
         startButton.textContent = 'Start Sharing';
         startButton.onclick = startScreenSharing;
         document.body.appendChild(startButton);
 
         async function startScreenSharing() {
             try {
-                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
+                let stream = await navigator.mediaDevices.getDisplayMedia({ video: true });
 
-                const localVideo = document.getElementById('localVideo');
+                let localVideo = document.getElementById('localVideo');
                 localVideo.srcObject = stream;
 
-                const peerConnection = new RTCPeerConnection();
+                let peerConnection = new RTCPeerConnection();
                 stream.getTracks().forEach(track => peerConnection.addTrack(track, stream));
 
                 peerConnection.ontrack = event => {
-                    const remoteVideo = document.getElementById('remoteVideo');
+                    let remoteVideo = document.getElementById('remoteVideo');
                     if (!remoteVideo.srcObject) {
                         remoteVideo.srcObject = event.streams[0];
                     }
                 };
 
-                // const offer = await peerConnection.createOffer();
-                // await peerConnection.setLocalDescription(offer);
+                 let offer = await peerConnection.createOffer();
+                 await peerConnection.setLocalDescription(offer);
 
                 peerConnection.onicecandidate = event => {
                     if (event.candidate) {
